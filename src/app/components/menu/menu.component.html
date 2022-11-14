@@ -1,0 +1,70 @@
+<app-header></app-header>
+<div class="container">
+<ul class="grid-container list-unstyled">
+    <li class="coffeName" *ngFor="let drink of drinks$ | async;"> {{capitalize(drink.drink_name)}}
+        <ul *ngFor="let key of determineKeys(drink.prices)">
+            <li><a style="cursor: pointer; text-decoration: underline" [routerLink]="" (click)="openOrderModal(drink.drink_name, key, determinePrice(key,
+                drink.prices))">{{capitalize(key)}} -
+                    {{determinePrice(key,
+                    drink.prices)}}</a></li>
+        </ul>
+    </li>
+</ul>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Order Confirmation - {{capitalize(selectedOrder.drink)}}
+                    {{capitalize(selectedOrder.size)}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="name">Name: </label>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" id="name" (input)="onNameUpdated($event)" />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <label for="quantity">Quantity: </label>
+                    </div>
+                    <div class="col-3">
+                        <input type="number" id="quantity" min="1" (input)="onQuantityUpdated($event)" />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <label for="quantity">Sub Total: </label>
+                    </div>
+                    <div class="col-3">
+                        {{determineSubTotal()}}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <label for="quantity">Amount Paid: </label>
+                    </div>
+                    <div class="col-3">
+                        <input type="number" id="quantity" min="0" (input)="onPaymentAmountUpdated($event)" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closeOrderModal()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-success" (click)="addOrder()">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-5">
+    <app-footer></app-footer>
+</div>

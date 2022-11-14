@@ -1,0 +1,36 @@
+<app-header></app-header>
+<h4>Orders list:</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Orders</th>
+            <th scope="col">Bill Amount</th>
+            <th scope="col">Payment Amount</th>
+            <th scope="col">Due Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let orderGroupedBy of ordersGroupedBy$ | async; let index=index">
+            <td>{{capitalize(orderGroupedBy.user)}}</td>
+            <td>
+        <tr *ngFor="let order of orderGroupedBy.orders">
+            <td>{{ capitalize(order.drink) }} - {{capitalize(order.size)}}</td>
+        </tr>
+        </td>
+        <td>
+            {{calculateTotalBillAmount(orderGroupedBy.orders)}}
+        </td>
+        <td>
+            {{orderGroupedBy.paymentAmount}}
+        </td>
+        <td>
+            {{calculateDueAmount(calculateTotalBillAmount(orderGroupedBy.orders), orderGroupedBy.paymentAmount)}}
+        </td>
+        </tr>
+    </tbody>
+</table>
+<div class="mt-5">
+    <app-footer></app-footer>
+</div>
